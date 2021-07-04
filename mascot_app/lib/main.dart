@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mascot_app/DrownerMenu/ContactHome.dart';
 import 'package:mascot_app/DrownerMenu/InfoComponent.dart';
+import 'package:mascot_app/DrownerMenu/Ppolicies.dart';
 import 'package:mascot_app/Forum/ForumPost.dart';
 import 'package:mascot_app/Login/Loginmain.dart';
 import 'package:mascot_app/mainApp.dart';
@@ -30,9 +32,9 @@ class MyApp extends StatelessWidget {
 
         //drawner menu section
         'info': (context) => InfoContent(),
+        'contac': (context) => ContacHome(),
+        'ppolicies': (context) => Ppolicies(),
 
-        //forum section
-        'Post': (context) => ForoPost(),
       },
     );
   }
