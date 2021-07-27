@@ -4,7 +4,7 @@ import 'package:mascot_app/ExtraComponents/AppbarDefault.dart';
 
 final List<dynamic> cardsData = [
   {
-    'name': "<email>",
+    'name': "<appmascota2021@gmail.com>",
     'icon': Icon(FontAwesomeIcons.mailBulk, size: 50)
   },
   {
@@ -82,7 +82,7 @@ List<Widget> createCards(final cardsData, BuildContext context){
                   ]),
                   TableCell(
                     verticalAlignment: TableCellVerticalAlignment.middle,
-                    child: Text(cardsData[i]['name'], textAlign: TextAlign.start, style: TextStyle(fontSize: 22),)
+                    child: Text(cardsData[i]['name'], textAlign: TextAlign.start, style: TextStyle(fontSize: 16),)
                   ),
                 ]
               ),

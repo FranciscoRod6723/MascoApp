@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mascot_app/ExtraComponents/AppbarDefault.dart';
+import 'package:mascot_app/ExtraComponents/Funtions.dart';
 
 class Login extends StatefulWidget {
   Login({Key key, this.titleP}) : super(key: key);
@@ -10,19 +12,11 @@ class Login extends StatefulWidget {
 }
 
 class LoginContainer extends State<Login>{
-  int _currentIndex = 0; 
+  
+  final AuthServices _authService = AuthServices();
+  String email;
+  String password;
   static BuildContext context1;
-  final tabs = [
-    Scaffold(
-      body: Center(
-        child: new RaisedButton(
-          child: Text("login"),
-          onPressed: () => Navigator.pushNamed(context1, 'home')
-        ),
-      ),
-    ),
-    Center(child: Text("Registro"),),
-  ];
 
  @override
   Widget build(BuildContext context) {
@@ -32,29 +26,37 @@ class LoginContainer extends State<Login>{
         preferredSize: const Size.fromHeight(60),
         child: AppBarDefault(titleP: "MascotApp"),
       ),
-      body: tabs[_currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.white,
-        currentIndex: _currentIndex,
-        //type: BottomNavigationBarType.fixed,
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.login, color: Colors.black),
-            title: Text('Login', style: TextStyle(color: Colors.black),),
-            backgroundColor: Colors.white
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.app_registration, color: Colors.black),
-            title: Text('Registro',  style: TextStyle(color: Colors.black)),
-            backgroundColor: Colors.white
-          )
-        ],
-        onTap: (index) {
-          setState((){
-            _currentIndex = index;
-          });
-        },
-      ),
+      body: buildLogin(),
     );
   }
+
+  Widget buildLogin() => Scaffold(
+    body: Container(
+      padding: EdgeInsets.all(20),
+      child: Form(
+        child: Column(
+          children: [
+            TextFormField(
+              onChanged: (val) => setState((){
+                email = val;
+              }),
+            ),
+            TextFormField(
+              onChanged: (val) => setState((){
+                password = val;
+              }),
+            ),
+            RaisedButton(
+              child: Text("Sign Up"),
+              onPressed: () async => { _authService.signUp(email, password)},
+            ),
+            RaisedButton(
+              child: Text("Sign In"),
+              onPressed: () async => { _authService.signIn(email, password)},
+            )
+          ],
+        ),
+      ),
+    ),
+  );
 }

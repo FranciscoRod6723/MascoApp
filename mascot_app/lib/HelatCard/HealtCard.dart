@@ -1,25 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:mascot_app/objects/cards.dart';
 import 'HealtCartInfo.dart';
 
-class HomeHealtCards extends StatefulWidget {
-  final cardsData;
+class HomeHealtCards extends StatelessWidget {
+  final Cards cardData;
+  final String idp;
 
-  HomeHealtCards({Key key, this.cardsData}) : super(key: key);
+  const HomeHealtCards({this.cardData, this.idp, Key key,}) : super(key: key);
 
-  @override
-  HealrCard createState() => HealrCard();
-}
-
-
-class HealrCard extends State<HomeHealtCards>{
-  @override
-  Widget build(BuildContext context){
-    var card = GestureDetector(
+  Widget build(BuildContext context) => GestureDetector(
       onTap: (){
         Navigator.push(context, 
           MaterialPageRoute(builder: (context) =>
-          HealtCardInfo(widget.cardsData)));
+          HealtCardInfo(cardsData: cardData, idp: idp)));
       },
       child: Center(
         child: Container(
@@ -66,7 +60,7 @@ class HealrCard extends State<HomeHealtCards>{
                   ]),
                   TableCell(
                     verticalAlignment: TableCellVerticalAlignment.middle,
-                    child: Text(widget.cardsData['petName'], textAlign: TextAlign.center, style: TextStyle(fontSize: 25),)
+                    child: Text(cardData.petName, textAlign: TextAlign.center, style: TextStyle(fontSize: 25),)
                   ),
                   Table(children: [ 
                     TableRow ( 
@@ -86,7 +80,4 @@ class HealrCard extends State<HomeHealtCards>{
         ),
       )
     );
-    return (card);
-  }
 }
-

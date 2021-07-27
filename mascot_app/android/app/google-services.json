@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "798459077556",
+    "project_id": "mascot-app-8430a",
+    "storage_bucket": "mascot-app-8430a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:798459077556:android:76dc418471999b121908e1",
+        "android_client_info": {
+          "package_name": "com.example.mascot_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "798459077556-ffo57r2qannms0sh4dafcotsbj0rba9m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDsZ422tjnkjE2ZGyWtGiZGdhsTuvweoE8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "798459077556-ffo57r2qannms0sh4dafcotsbj0rba9m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

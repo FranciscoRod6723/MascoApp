@@ -26,6 +26,16 @@ dependencies:
   font_awesome_flutter: ^8.2.0
   table_calendar: ^3.0.1
   syncfusion_flutter_calendar: ^19.1.59
+  provider: ^5.0.0
+  getflutter: ^1.0.11
+  flutter_slidable: ^0.6.0
+  http: ^0.13.3
+  firebase_core:
+  cloud_firestore:
+  image_picker:
+  firebase_auth:
+  firebase_storage:
+  quiver: ^3.0.1
 
 
   # The following adds the Cupertino Icons font to your application.

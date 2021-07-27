@@ -48,7 +48,7 @@ class PostCard extends State<HomeCards>{
             columnWidths: {
               0: FractionColumnWidth(.15),
               1: FractionColumnWidth(.65),
-              2: FractionColumnWidth(.11)
+              2: FractionColumnWidth(.15)
             },
             children:[
               TableRow(

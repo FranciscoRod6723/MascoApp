@@ -1,39 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:mascot_app/HelatCard/HealtCard.dart';
-
-final List cardsData = [
-  {
-    "petName": "Mila",
-    "profilepic": "https://picsum.photos/250?image=9",
-  },
-  {
-    "petName": "Hachi",
-    "profilepic": "https://picsum.photos/250?image=9",
-  },
-];
+import 'package:mascot_app/ExtraComponents/HealtCardFuntios.dart';
+import 'package:mascot_app/HelatCard/AddHealtCard.dart';
+import 'package:mascot_app/HelatCard/listCards.dart';
+import 'package:provider/provider.dart';
 
 class HomeHealt extends StatelessWidget {
-  @override
+  @override  
   Widget build(BuildContext context) {
-    var scaffold = Scaffold(
-      body: SingleChildScrollView ( 
-        child: Column(
-          children: [
-            Row(
-              children: [Column(children: createCards(cardsData))]
-            ),
-          ],
+    HCServices _hcServices = HCServices();
+    var scaffold = FutureProvider.value(
+      value: _hcServices.getCards(),
+      child:Scaffold(
+        body: ListCards(),
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.add, color: Colors.white,),
+          backgroundColor: Colors.greenDefault,
+          onPressed: () => Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => AddHealtCard())
+          ),
         )
-      ),
+      )
     );
     return scaffold;
   }
-}
-
-List<Widget> createCards(final cardsData){
-  List<Widget> cards = [];
-  for(int i = 0; i < 2; i++){
-    cards.add(HomeHealtCards(cardsData: cardsData[i]));
-  }
-  return cards;
 }

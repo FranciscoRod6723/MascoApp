@@ -1,6 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:mascot_app/DrownerMenu/ContactHome.dart';
+import 'package:mascot_app/DrownerMenu/InfoComponent.dart';
+import 'package:mascot_app/DrownerMenu/Ppolicies.dart';
+import 'package:mascot_app/ExtraComponents/Funtions.dart';
+import 'package:mascot_app/Forum/profile/edit.dart';
+import 'package:mascot_app/Forum/profile/profile.dart';
+import 'package:mascot_app/objects/user.dart';
+import 'package:provider/provider.dart';
 
 class NavDrawer extends StatelessWidget {
+  final AuthServices _authService = AuthServices();
+  
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -18,19 +28,37 @@ class NavDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.input),
+            title: Text('Profile'),
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => Profile(userId: Provider.of<UserModel>(context).id,))
+            ),
+          ),
+          ListTile(
+            leading: Icon(Icons.input),
             title: Text('About us'),
-            onTap: () => Navigator.pushNamed(context, 'info'),
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => InfoContent())
+            )
           ),
           ListTile(
             leading: Icon(Icons.verified_user),
             title: Text('Privacy policies'),
-            onTap: () => Navigator.pushNamed(context, 'ppolicies')
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => Ppolicies())
+            )
           ),
           ListTile(
             leading: Icon(Icons.settings),
             title: Text('Contact'),
-            onTap: () => Navigator.pushNamed(context, 'contac'),
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => ContacHome())
+            )
           ),
+          ListTile(
+            leading: Icon(Icons.settings),
+            title: Text('Sign Out'),
+            onTap: () => _authService.signOut(),
+          )
         ],
       ),
     );
