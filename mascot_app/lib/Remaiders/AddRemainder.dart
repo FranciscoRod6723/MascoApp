@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mascot_app/ExtraComponents/QuoteId.dart';
 import 'package:mascot_app/objects/event.dart';
@@ -21,6 +22,7 @@ class AddRemainders extends StatefulWidget {
 class _EventEditingPageState extends State<AddRemainders> {
   final _formKey = GlobalKey<FormState>();
   final titleController = TextEditingController();
+  final desController = TextEditingController();
   DateTime fromDate;
   DateTime toDate;
   String titleAppbar;
@@ -36,6 +38,7 @@ class _EventEditingPageState extends State<AddRemainders> {
     } else {
       final event = widget.event;
 
+      desController.text = event.description;
       titleController.text = event.title;
       fromDate = event.from;
       toDate = event.to;
@@ -66,9 +69,10 @@ class _EventEditingPageState extends State<AddRemainders> {
         child:Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            buildTitle(),
+            buildTitle("Title", titleController),
             SizedBox(height:2),
             buildDateTimePickers(),
+            buildTitle("Description", desController),
           ],
         ),
       )
@@ -87,16 +91,16 @@ class _EventEditingPageState extends State<AddRemainders> {
     ),
   ];
 
-  Widget buildTitle() => TextFormField(
+  Widget buildTitle(title, controller) => TextFormField(
     style: TextStyle(fontSize: 24),
     decoration: InputDecoration(
       border: UnderlineInputBorder(),
-      hintText: 'Add title',
+      hintText: title,
     ),
     onFieldSubmitted: (_) => saveForm(),
     validator: (title) => 
-      title != null && title.isEmpty ? 'Title cannot be emty' : null,
-    controller: titleController,
+      title != null && title.isEmpty ? 'Title cannot be emty' + title : null,
+    controller: controller,
   );
 
   Widget buildDateTimePickers() => Column(
@@ -235,7 +239,7 @@ class _EventEditingPageState extends State<AddRemainders> {
     if(isValid) {
       final event = Event(
         title: titleController.text,
-        description: 'Description',
+        description: desController.text,
         from: fromDate,
         to: toDate,
       );
@@ -249,11 +253,11 @@ class _EventEditingPageState extends State<AddRemainders> {
         collectionReference.add({
           "dateFrom": UtilsEvent.toTimeDateS(fromDate),
           "dateTo": UtilsEvent.toTimeDateS(toDate),
-          "description": "description",
+          "description": desController.text,
           "id_pet": "1",
           "id_remainder": getRandomString(20),
           "title": titleController.text,
-          "id_user": "1",
+          "id_user": FirebaseAuth.instance.currentUser.uid,
         });
         provider.addEvent(event);
       }

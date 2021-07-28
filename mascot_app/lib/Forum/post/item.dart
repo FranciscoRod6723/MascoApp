@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mascot_app/ExtraComponents/FuntionsPost.dart';
+import 'package:mascot_app/Forum/profile/profile.dart';
 import 'package:mascot_app/objects/post.dart';
 import 'package:mascot_app/objects/user.dart';
 import 'package:mascot_app/Forum/post/replies.dart';
@@ -31,15 +32,25 @@ class _ItemState extends State<ItemPost> {
             Text('Sharring'),
             SizedBox(height:10),
             Row(
-            children: [
-                widget.snapshotUser.data.profileImageUrl != '' ? 
-                CircleAvatar(
-                  radius:20,
-                  backgroundImage: NetworkImage(widget.snapshotUser.data.profileImageUrl)
+              children: [
+                GestureDetector(
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => Profile(userId: widget.snapshotUser.data.id))
+                  ) ,
+                  child:
+                    widget.snapshotUser.data.profileImageUrl != '' ? 
+                    CircleAvatar(
+                      radius:20,
+                      backgroundImage: NetworkImage(widget.snapshotUser.data.profileImageUrl)
+                    )
+                    : 
+                    Row(children: [
+                      Icon(Icons.person, size: 40),
+                      SizedBox(width: 10,),
+                      Text(widget.snapshotUser.data.name),
+                    ]
+                  )
                 )
-                : Icon(Icons.person, size: 40),
-                SizedBox(width: 10,),
-                Text(widget.snapshotUser.data.name),
               ],
             ),
           ],
@@ -54,6 +65,14 @@ class _ItemState extends State<ItemPost> {
             child: Column(
               children: [
                 Text(widget.post.text),
+                SizedBox(height: 20,),
+                Container(
+                  child: widget.post.postImage != '' ?
+                    Image.network(widget.post.postImage, height: 180)
+                  :
+                    null
+                  ,
+                ),
                 SizedBox(height: 20,),
                 Text(widget.post.timestamp.toDate().toString()),
                 SizedBox(height:20),

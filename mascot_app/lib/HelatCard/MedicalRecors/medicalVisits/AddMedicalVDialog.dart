@@ -62,7 +62,7 @@ class _AddMedicalVDialog extends State<AddMedicalVDialog>{
             child: Column ( 
               children: [
                 Text(
-                  'Add dewornming',
+                  'Add medical visit',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 22,
@@ -124,7 +124,7 @@ class _AddMedicalVDialog extends State<AddMedicalVDialog>{
   );
 
   Widget buildTo() =>  builHeader(
-    header: 'Nex dewornming',
+    header: 'Next',
     child: Row(
       children: [
         Expanded(

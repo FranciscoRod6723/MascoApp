@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mascot_app/ExtraComponents/UserServices.dart';
+import 'package:mascot_app/objects/user.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({Key key}) : super(key: key);
@@ -19,7 +20,7 @@ class _EditProfileState extends State<EditProfile> {
   String name = '';
 
   Future getImage(int type) async{
-    final pickedFile = await picker.getImage(source: ImageSource.camera);
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
     setState(() {
       if(pickedFile != null && type == 0){
         _profileImage = File(pickedFile.path);

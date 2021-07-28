@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mascot_app/ExtraComponents/HealtCardFuntios.dart';
 import 'package:mascot_app/mainApp.dart';
 import 'package:mascot_app/objects/cards.dart';
@@ -29,6 +32,8 @@ class _CardsEdittingPageState extends State<AddHealtCard>{
   final colorControler = TextEditingController();
   final veterinarianControler = TextEditingController();
   final microchipIdControler = TextEditingController();
+  File _profileImage;
+  final picker = ImagePicker();
 
   Timestamp birthDay;
 
@@ -52,6 +57,15 @@ class _CardsEdittingPageState extends State<AddHealtCard>{
     }
   }
 
+  Future getImage() async{
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    setState(() {
+      if(pickedFile != null){
+        _profileImage = File(pickedFile.path);
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) => Scaffold(
     resizeToAvoidBottomInset: true,
@@ -68,6 +82,23 @@ class _CardsEdittingPageState extends State<AddHealtCard>{
         child:Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            Row(
+              children:[
+                Text('Profile image'),
+                FlatButton(
+                  onPressed: () => getImage(), 
+                  child: _profileImage == null ?
+                     widget.card != null ?
+                      widget.card.profileImageUrl != null ?
+                        Image.network(widget.card.profileImageUrl, height: 100)
+                      :
+                        Icon(Icons.person) 
+                    :
+                      Icon(Icons.person) 
+                  : Image.file(_profileImage, height: 100)
+                )
+              ]
+            ),
             buildInput("Pet Name", petNameControler),
             SizedBox(height:30),
             buildBirthDay(),
@@ -200,7 +231,7 @@ class _CardsEdittingPageState extends State<AddHealtCard>{
 
       final isEditting = widget.card!= null;
       if(isEditting){
-        print(widget.card);
+        _hcServices.updateProfile(_profileImage, widget.card.id);
         _hcServices.updateCard( widget.card.id,petNameControler.text, 
           birthDay,  sexControler.text, specieControler.text, 
           breedControler.text, weightControler.text,  
@@ -209,7 +240,7 @@ class _CardsEdittingPageState extends State<AddHealtCard>{
         _hcServices.saveCard(petNameControler.text, 
           birthDay,  sexControler.text, specieControler.text, 
           breedControler.text, weightControler.text,  
-          colorControler.text, veterinarianControler.text,  microchipIdControler.text);
+          colorControler.text, veterinarianControler.text,  microchipIdControler.text, _profileImage);
       }
       Navigator.of(context).pop();
       Navigator.of(context).push(

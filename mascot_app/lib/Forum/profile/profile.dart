@@ -16,104 +16,120 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile>{
   PostService _postService = PostService();
-  UserServices _userServices = UserServices();
+  UserServices _userService = UserServices();
+  ScrollController _scrollViewController;
+
+  @override
+  void initState(){
+    super.initState();
+    _scrollViewController = ScrollController();
+  }
+
+  @override
+  void dispose(){
+    super.dispose();
+    _scrollViewController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     String id = widget.userId != null ? widget.userId : FirebaseAuth.instance.currentUser.uid;
     return MultiProvider(
-      providers: [
-        StreamProvider.value(
-          value: _userServices.isFollowing(FirebaseAuth.instance.currentUser.uid, widget.userId),
-        ),
-        StreamProvider.value(
-          value: _postService.getPostsByUser(FirebaseAuth.instance.currentUser.uid),
-        ),
-        StreamProvider.value(
-          value: _userServices.getUSerInfo(id),
-        )
-      ],
-      child: Scaffold(
-        body: DefaultTabController(
+        providers: [
+          StreamProvider.value(
+            value: _userService.isFollowing(
+                FirebaseAuth.instance.currentUser.uid, widget.userId),
+          ),
+          StreamProvider.value(
+            value: _postService.getPostsByUser(id),
+          ),
+          StreamProvider.value(
+            value: _userService.getUSerInfo(id),
+          )
+        ],
+        child: Scaffold(
+            body: DefaultTabController(
           length: 2,
           child: NestedScrollView(
-            headerSliverBuilder: (context, _) {
-              return[
-                SliverAppBar(
-                  backgroundColor: Colors.greenDefault,
-                  floating: false,
-                  pinned: true,
-                  expandedHeight: 130,
-                  flexibleSpace: FlexibleSpaceBar(
-                    background: Image.network(Provider.of<UserModel>(context).bannerImageUrl ?? '',
+              headerSliverBuilder: (context, _) {
+                return [
+                  SliverAppBar(
+                    backgroundColor: Colors.greenDefault,
+                    floating: false,
+                    pinned: true,
+                    expandedHeight: 130,
+                    flexibleSpace: FlexibleSpaceBar(
+                        background: Image.network(
+                      Provider.of<UserModel>(context).bannerImageUrl ?? '',
                       fit: BoxFit.cover,
-                    )
+                    )),
                   ),
-                ),
-                SliverList(
-                  delegate: SliverChildListDelegate(
-                    [
-                      Container(
-                        padding: EdgeInsets.symmetric(vertical:20, horizontal:20),
-                        child: Column(
-                          children: [ 
-                            Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  SliverList(
+                      delegate: SliverChildListDelegate([
+                    Container(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                      child: Column(
+                        children: [
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Provider.of<UserModel>(context).profileImageUrl != ''  ? 
-                                CircleAvatar(radius:30, backgroundImage: NetworkImage(Provider.of<UserModel>(context).profileImageUrl))
-                                : Icon(Icons.person, size: 40,),
+                                Provider.of<UserModel>(context)
+                                            .profileImageUrl !=
+                                        ''
+                                    ? CircleAvatar(
+                                        radius: 30,
+                                        backgroundImage: NetworkImage(
+                                            Provider.of<UserModel>(context)
+                                                .profileImageUrl),
+                                      )
+                                    : Icon(Icons.person, size: 50),
                                 if (FirebaseAuth.instance.currentUser.uid ==
-                                    widget.userId)
+                                    id)
                                   TextButton(
-                                      onPressed: () => Navigator.of(context).push(
-                                        MaterialPageRoute(builder: (context) => EditProfile())
-                                      ),
-                                      child: Text("Edit Profile", style: TextStyle(color:Colors.black)))
+                                      onPressed: () {
+                                        Navigator.pushNamed(context, '/edit');
+                                      },
+                                      child: Text("Edit Profile"))
                                 else if (FirebaseAuth
                                             .instance.currentUser.uid !=
-                                        widget.userId &&
+                                        id &&
                                     !Provider.of<bool>(context))
                                   TextButton(
                                       onPressed: () {
-                                        _userServices.followUser(widget.userId);
+                                        _userService.followUser(id);
                                       },
-                                      child: Text("Follow",  style: TextStyle(color:Colors.greenAccent[700])))
+                                      child: Text("Follow"))
                                 else if (FirebaseAuth
                                             .instance.currentUser.uid !=
-                                        widget.userId &&
+                                        id &&
                                     Provider.of<bool>(context))
                                   TextButton(
                                       onPressed: () {
-                                        _userServices.unfollowUser(widget.userId);
+                                        _userService.unfollowUser(id);
                                       },
-                                      child: Text("Unfollow", style: TextStyle(color:Colors.red))),
-                                
-                              ],
-                            ),
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Container(
-                                padding: EdgeInsets.symmetric(vertical: 10),
-                                child: Text(
-                                  Provider.of<UserModel>(context).name ?? '',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
-                                  ),
+                                      child: Text("Unfollow")),
+                              ]),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Container(
+                              padding: EdgeInsets.symmetric(vertical: 10),
+                              child: Text(
+                                Provider.of<UserModel>(context).name ?? '',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
                                 ),
                               ),
-                            )
-                          ]
-                        ),
-                      )
-                    ]
-                  ),
-                )
-              ];
-            }, body:  ListPost(null),
-          ),
-        )
-      ),
-    );
+                            ),
+                          )
+                        ],
+                      ),
+                    )
+                  ]))
+                ];
+              },
+              body: ListPost(null)),
+        )));
   }
 }

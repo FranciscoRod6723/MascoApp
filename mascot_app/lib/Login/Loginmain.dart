@@ -31,32 +31,70 @@ class LoginContainer extends State<Login>{
   }
 
   Widget buildLogin() => Scaffold(
-    body: Container(
+    body: SingleChildScrollView( child: Container(
       padding: EdgeInsets.all(20),
       child: Form(
         child: Column(
           children: [
+            Image(image: AssetImage("assets/logo.png"), height: 200,),
             TextFormField(
+              decoration: const InputDecoration(
+                labelText: 'Email',
+              ),
               onChanged: (val) => setState((){
                 email = val;
               }),
             ),
+            SizedBox(height:30),
             TextFormField(
+              obscureText: true,
+              decoration: const InputDecoration(
+                labelText: 'Password',
+              ),
+              validator: (String value) {
+                if (value.trim().isEmpty) {
+                  return 'Password is required';
+                }
+              },
               onChanged: (val) => setState((){
                 password = val;
               }),
             ),
-            RaisedButton(
-              child: Text("Sign Up"),
-              onPressed: () async => { _authService.signUp(email, password)},
+            SizedBox(height:50),
+            GestureDetector(
+              onTap: (){
+                _authService.signIn(email, password);
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.greenDefault,
+                  borderRadius: BorderRadius.circular(100),
+                ),
+                width: 150,
+                height: 50,
+                child: Center( child: Text("Sign In", style: TextStyle(fontSize: 18)))
+              )
             ),
-            RaisedButton(
-              child: Text("Sign In"),
-              onPressed: () async => { _authService.signIn(email, password)},
-            )
+            SizedBox(height:150),
+            Text("Enter your information and register"),
+            SizedBox(height:10),
+            GestureDetector(
+              onTap: (){
+                 _authService.signUp(email, password);
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.greenDefault,
+                  borderRadius: BorderRadius.circular(100),
+                ),
+                width: 150,
+                height: 50,
+                child: Center( child: Text("Sign up", style: TextStyle(fontSize: 18)))
+              )
+            ),
           ],
         ),
       ),
     ),
-  );
+  ));
 }

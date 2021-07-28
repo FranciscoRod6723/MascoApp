@@ -10,6 +10,8 @@ import 'package:mascot_app/utils/utilsCards.dart';
 import 'package:provider/provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import 'MedicalRecors/medicalVisits/MedicalVisitHome.dart';
+
 HCServices _hcServices = HCServices();
 
 class HealtCardInfo extends StatelessWidget {
@@ -35,7 +37,7 @@ class HealtCardInfo extends StatelessWidget {
               decoration: BoxDecoration(
                 image: DecorationImage( 
                   fit: BoxFit.scaleDown,
-                  image: NetworkImage("https://picsum.photos/250?image=9"),
+                  image: NetworkImage(cardsData.profileImageUrl),
                 ),
                 borderRadius: BorderRadius.circular(5),
               ),
@@ -70,8 +72,15 @@ class HealtCardInfo extends StatelessWidget {
                         children: [Icon(FontAwesomeIcons.notesMedical, size: 55), Text("Medical record", style: TextStyle(fontSize:16, height: 2), maxLines: 2,)]
                       ),
                     ),
-                    Column(
-                      children: [Icon(FontAwesomeIcons.bell, size: 55), Text("Remainders", style: TextStyle(fontSize:16, height: 2), maxLines: 2,)]
+                    GestureDetector(
+                      onTap: () =>{
+                        Navigator.push(context, 
+                          MaterialPageRoute(builder: (context) =>
+                          MedicalVHome(idp)))
+                      },
+                      child: Column(
+                        children: [Icon(FontAwesomeIcons.bell, size: 55), Text("Remainders", style: TextStyle(fontSize:16, height: 2), maxLines: 2,)]
+                      ),
                     ),
                     GestureDetector(
                       onTap: () =>{

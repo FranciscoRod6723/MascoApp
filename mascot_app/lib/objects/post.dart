@@ -10,8 +10,10 @@ class PostModel {
   DocumentReference ref;
   int likesCount;
   int sharringCount;
+  String postImage;
 
   PostModel({
+    this.postImage,
     this.id,
     this.creator,
     this.text,

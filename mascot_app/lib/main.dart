@@ -25,8 +25,6 @@ Future main() async {
   ]);
 
   Firebase.initializeApp().then((value) {
-
-    
     runApp(MyApp());
   });
   //SystemChrome.setEnabledSystemUIOverlays([]);
@@ -85,7 +83,15 @@ class MyApp extends StatelessWidget {
           );
         }
         // Otherwise, show something whilst waiting for initialization to complete
-        return Text("loading");
+        return MaterialApp(
+            title: 'MascotApp',
+            theme: ThemeData(
+              primarySwatch: Colors.blue,
+            ),
+            home: Scaffold(
+              body: Image.asset('./Assets/logo ocho.png', height: 200,),
+            ),
+          );
       },
     );
   }

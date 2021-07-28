@@ -78,7 +78,10 @@ class _ListNotesState extends State<ListNotes> {
                       crossAxisAlignment: 
                       CrossAxisAlignment.start, 
                       children: [
-                        Text(item.title, style: TextStyle(fontSize: 26),), 
+                        Padding(
+                          padding: EdgeInsets.all(5),
+                          child: Text(item.title, style: TextStyle(fontSize: 26),),
+                        ),
                         Text(item.createDate.toDate().toString(), style: TextStyle(fontSize: 16))
                       ]
                     )
@@ -88,7 +91,7 @@ class _ListNotesState extends State<ListNotes> {
               isExpanded: item.isExpanded,
               body: Container(
                 decoration: BoxDecoration(
-                  
+                  border: Border.all(width:.5, color: Colors.grey)
                 ),
                 padding: EdgeInsets.symmetric(vertical: 20, horizontal:20),
                 child: Padding(

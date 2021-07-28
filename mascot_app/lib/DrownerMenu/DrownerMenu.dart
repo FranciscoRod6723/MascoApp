@@ -27,14 +27,14 @@ class NavDrawer extends StatelessWidget {
             ),
           ),
           ListTile(
-            leading: Icon(Icons.input),
+            leading: Icon(Icons.person),
             title: Text('Profile'),
             onTap: () => Navigator.of(context).push(
               MaterialPageRoute(builder: (context) => Profile(userId: Provider.of<UserModel>(context).id,))
             ),
           ),
           ListTile(
-            leading: Icon(Icons.input),
+            leading: Icon(Icons.info),
             title: Text('About us'),
             onTap: () => Navigator.of(context).push(
               MaterialPageRoute(builder: (context) => InfoContent())
@@ -48,7 +48,7 @@ class NavDrawer extends StatelessWidget {
             )
           ),
           ListTile(
-            leading: Icon(Icons.settings),
+            leading: Icon(Icons.phone),
             title: Text('Contact'),
             onTap: () => Navigator.of(context).push(
               MaterialPageRoute(builder: (context) => ContacHome())

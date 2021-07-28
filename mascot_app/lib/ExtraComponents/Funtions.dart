@@ -36,8 +36,10 @@ class AuthServices {
         email: email,
         password: password
       );
-      await FirebaseFirestore.instance.collection('user').doc(user.user.uid).set({'name': email, 'email': email, 'bannerImageUrl': '', 'profileImageUrl': ''});
-      _userFromFireBaseUser(user.user);
+      if(user != null){
+        await FirebaseFirestore.instance.collection('user').doc(user.user.uid).set({'name': email, 'email': email, 'bannerImageUrl': '', 'profileImageUrl': ''});
+        _userFromFireBaseUser(user.user);
+      }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');

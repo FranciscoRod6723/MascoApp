@@ -44,7 +44,9 @@ class _ListDewornmState extends State<ListDewornm> {
           children: widget.dewornm.map((Dewornm item) {
             return ExpansionPanel(
               headerBuilder: (BuildContext contex, bool isExpanded){
-                return Slidable( 
+                return Container(
+                  padding: EdgeInsets.all(20),
+                  child: Slidable( 
                   actionPane: SlidableBehindActionPane(),
                   key: Key("dewornm"),
                   actions: [
@@ -70,57 +72,79 @@ class _ListDewornmState extends State<ListDewornm> {
                       icon: Icons.delete
                     )
                   ],
-                  child: Center(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text(item.deworn), Text(item.date.toDate().toString())])),
-                );
+                  child: Center(
+                    child: 
+                    Column(
+                      crossAxisAlignment: 
+                      CrossAxisAlignment.start, 
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.all(5),
+                          child: Text(item.deworn, style: TextStyle(fontSize: 26),),
+                        ),
+                        Text(item.date.toDate().toString(), style: TextStyle(fontSize: 16))
+                      ]
+                    )
+                  ),
+                ));
               },
               isExpanded: item.isExpanded,
-              body: Column(
-                children: [
-                  Row(
+              body: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(width:.5, color: Colors.grey)
+                ),
+                padding: EdgeInsets.symmetric(vertical: 20, horizontal:20),
+                child: Padding(
+                  padding: EdgeInsets.all(2),
+                  child: Column(
                     children: [
-                      Expanded(
-                        flex: 1,
-                        child: Text('Next dewornming', style: TextStyle(fontSize:18),)
+                      Row(
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: Text('Next dewornming', style: TextStyle(fontSize:18),)
+                          ),
+                          Expanded(
+                            child: Text(item.next.toDate().toString(), style: TextStyle(fontSize:16),)
+                          )
+                        ],
                       ),
-                      Expanded(
-                        child: Text(item.next.toDate().toString(), style: TextStyle(fontSize:18),)
+                      Row(
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: Text('Veterinarian', style: TextStyle(fontSize:18),)
+                          ),
+                          Expanded(
+                            child: Text(item.veterinarian, style: TextStyle(fontSize:16),)
+                          )
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: Text('Weight', style: TextStyle(fontSize:18),)
+                          ),
+                          Expanded(
+                            child: Text(item.weight, style: TextStyle(fontSize:16),)
+                          )
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: Text('Comments', style: TextStyle(fontSize:18),)
+                          ),
+                          Expanded(
+                            child: Text(item.comments, style: TextStyle(fontSize:16),)
+                          )
+                        ],
                       )
                     ],
                   ),
-                  Row(
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: Text('Veterinarian', style: TextStyle(fontSize:18),)
-                      ),
-                      Expanded(
-                        child: Text(item.veterinarian, style: TextStyle(fontSize:18),)
-                      )
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: Text('Weight', style: TextStyle(fontSize:18),)
-                      ),
-                      Expanded(
-                        child: Text(item.weight, style: TextStyle(fontSize:18),)
-                      )
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: Text('Comments', style: TextStyle(fontSize:18),)
-                      ),
-                      Expanded(
-                        child: Text(item.comments, style: TextStyle(fontSize:18),)
-                      )
-                    ],
-                  )
-                ],
+                ),
               ),
             );
           }).toList(),

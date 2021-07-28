@@ -24,6 +24,11 @@ class _RepliesState extends State<Replies> {
         value: _postService.getReplies(args),
         child: Container(
           child: Scaffold(
+            appBar: AppBar(
+              backgroundColor: Colors.greenDefault,
+              leading: CloseButton(color: Colors.black),
+              title: Text("Post", style: TextStyle(color: Colors.black),),
+            ),
             body: Container(
               child: Column(
                 children: [

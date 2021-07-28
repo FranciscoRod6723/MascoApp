@@ -4,15 +4,15 @@ import 'package:mascot_app/ExtraComponents/AppbarDefault.dart';
 
 final List<dynamic> cardsData = [
   {
-    'name': "<appmascota2021@gmail.com>",
+    'name': "appmascota2021@gmail.com",
     'icon': Icon(FontAwesomeIcons.mailBulk, size: 50)
   },
   {
-    'name': "<number>",
+    'name': "9998912912",
     'icon': Icon(Icons.phone, size: 50)
   },
   {
-    'name': "<facebook>",
+    'name': "MasctoApp",
     'icon': Icon(FontAwesomeIcons.facebook, size: 50)
   },
 ];

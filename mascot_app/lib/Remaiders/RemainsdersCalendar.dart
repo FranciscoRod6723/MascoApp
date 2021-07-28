@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:mascot_app/Remaiders/tasks_widget.dart';
@@ -15,47 +16,20 @@ class HomeRemainders extends StatefulWidget {
 }
 
 class RemaindersCalendar extends State<HomeRemainders> {
-  /*
-  Future<List<EventProvider>> getRemianders() async {
-    var url = Uri.parse("https://mascotappservices.000webhostapp.com/Services/Functions/SearchRemainders.php?id=1");
-    final response = await http.get(url);
-
-    if(response.statusCode == 200){
-      String body = utf8.decode(response.bodyBytes);
-
-      final jsonData = jsonDecode(body);
-
-      final event = Event(
-        title: jsonData[0]['title'],
-        description: jsonData[0]['description'],
-        from: DateTime.parse(jsonData[0]['dateFrom']),
-        to: DateTime.parse(jsonData[0]['dateTo']),
-      );
-
-      final provider = Provider.of<EventProvider>(context, listen: false);
-
-      provider.addEvent(event);
-    }else{
-      throw Exception("Failed Conection");
-    }
-  }*/
 
   @override
   void initState() {
     super.initState();
 
-    //getRemianders();
     getRemainders();
   }
 
   void getRemainders() async{
-    Query<Map<String, dynamic>> collectionReference = FirebaseFirestore.instance.collection("remainders_data").where("id_user", isEqualTo: "1");
+    Query<Map<String, dynamic>> collectionReference = FirebaseFirestore.instance.collection("remainders_data").where("id_user", isEqualTo: FirebaseAuth.instance.currentUser.uid);
     QuerySnapshot remain = await collectionReference.get();
-
     if(remain.docs.length != 0){
       for(var doc in remain.docs){
         List data = [doc.data()];
-        print(data);
 
         final event = Event(
         title: data[0]['title'],
@@ -63,10 +37,12 @@ class RemaindersCalendar extends State<HomeRemainders> {
         from: DateTime.parse(data[0]['dateFrom']),
         to: DateTime.parse(data[0]['dateTo']),
       );
-
         final provider = Provider.of<EventProvider>(context, listen: false);
+        final events = Provider.of<EventProvider>(context).events;
 
-        provider.addEvent(event);
+        if(events.length <= remain.docs.length){
+          provider.addEvent(event);
+        }
       }
     }
   }
@@ -80,7 +56,7 @@ class RemaindersCalendar extends State<HomeRemainders> {
       initialSelectedDate: DateTime.now(),
       cellBorderColor: Colors.transparent,
       dataSource: EventDataSouce(events),
-      onLongPress: (details) {
+      onTap: (details) {
         final provider = Provider.of<EventProvider>(context,listen: false);
         
         provider.setDate(details.date);

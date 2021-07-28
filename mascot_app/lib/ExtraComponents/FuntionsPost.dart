@@ -1,10 +1,15 @@
+import 'dart:collection';
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mascot_app/ExtraComponents/UserServices.dart';
 import 'package:mascot_app/objects/post.dart';
+import 'package:mascot_app/utils/utilsImage.dart';
 import 'package:quiver/iterables.dart';
 
 class PostService{
+  UtilsServices  _utilsServices = UtilsServices();
 
   List<PostModel> _postListFromSnapshots(QuerySnapshot snapshot){
     return snapshot.docs.map((doc) {
@@ -17,6 +22,7 @@ class PostService{
         sharringCount: doc['sharringCount'] != null ? doc['sharringCount'] :0,
         sharring: doc['sharring'] != null ? doc['sharring'] : false,
         originalId: doc['originalId'] != null ? doc['originalId'] : '',
+        postImage: doc['postImage'] != null ? doc['postImage'] : '',
         ref: doc.reference
       );
     }).toList();
@@ -33,13 +39,19 @@ class PostService{
             sharringCount: snapshot['sharringCount'] != null ? snapshot['sharringCount'] :0,
             sharring:  snapshot['sharring'] != null ? snapshot['sharring'] : false,
             originalId: snapshot['originalId'] != null ? snapshot['originalId'] : '',
+            postImage: snapshot['postImage'] != null ? snapshot['postImage'] : '',
             ref: snapshot.reference
           )
         : null;
   }
 
-  Future savePost(text) async {
-    await FirebaseFirestore.instance.collection("post").add({
+  Future savePost(text, image) async {
+      String postimage = '';
+      
+    if(image != null){
+      postimage = await _utilsServices.uploadFile(image, 'users/posts/${FirebaseAuth.instance.currentUser.uid}//image');
+    } 
+    var a = await FirebaseFirestore.instance.collection("post").add({
       'text': text,
       'creator': FirebaseAuth.instance.currentUser.uid,
       'timestamp': FieldValue.serverTimestamp(),
@@ -47,7 +59,11 @@ class PostService{
       'likesCount': 0,
       'sharringCount': 0,
       'originalId': '',
+      'postImage': postimage
     });   
+    if(image != null){
+      postimage = await _utilsServices.uploadFile(image, 'users/posts/${FirebaseAuth.instance.currentUser.uid}/${a.id}/image');
+    } 
   }
 
   Future likePost(PostModel post, bool current) async {
@@ -203,6 +219,7 @@ class PostService{
       'likesCount': 0,
       'sharringCount': 0,
       'originalId': '',
+      'postImage': ''
     });
   }
 }

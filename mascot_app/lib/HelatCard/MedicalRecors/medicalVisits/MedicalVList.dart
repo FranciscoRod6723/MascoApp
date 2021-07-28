@@ -49,7 +49,9 @@ class _ListMedicalVState extends State<ListMedicalV> {
           children: widget.meidicalV.map((MedicalV item) {
             return ExpansionPanel(
               headerBuilder: (BuildContext contex, bool isExpanded){
-                return Slidable( 
+                return Container(
+                  padding: EdgeInsets.all(20),
+                  child: Slidable( 
                   actionPane: SlidableBehindActionPane(),
                   key: Key("dewornm"),
                   actions: [
@@ -75,57 +77,74 @@ class _ListMedicalVState extends State<ListMedicalV> {
                       icon: Icons.delete
                     )
                   ],
-                  child: Center(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text(item.name), Text(item.fromdate.toDate().toString())])),
-                );
+                  child: Column(
+                      crossAxisAlignment: 
+                      CrossAxisAlignment.start, 
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.all(5),
+                          child: Text(item.name, style: TextStyle(fontSize: 26),),
+                        ),
+                        Text(item.todate.toDate().toString(), style: TextStyle(fontSize: 16))
+                      ]
+                    )
+                ));
               },
               isExpanded: item.isExpanded,
-              body: Column(
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: Text('Hour', style: TextStyle(fontSize:18),)
-                      ),
-                      Expanded(
-                        child: Text(item.todate.toDate().hour.toString() + ":" + item.todate.toDate().minute.toString() , style: TextStyle(fontSize:18),)
-                      )
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: Text('Veterinarian', style: TextStyle(fontSize:18),)
-                      ),
-                      Expanded(
-                        child: Text(item.veterinarian, style: TextStyle(fontSize:18),)
-                      )
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: Text('Reazon', style: TextStyle(fontSize:18),)
-                      ),
-                      Expanded(
-                        child: Text(item.reason, style: TextStyle(fontSize:18),)
-                      )
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: Text('Comments', style: TextStyle(fontSize:18),)
-                      ),
-                      Expanded(
-                        child: Text(item.comments, style: TextStyle(fontSize:18),)
-                      )
-                    ],
-                  )
-                ],
+              body: 
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(width:.5, color: Colors.grey)
+                ),
+                padding: EdgeInsets.symmetric(vertical: 20, horizontal:20),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: Text('Hour', style: TextStyle(fontSize:18),)
+                        ),
+                        Expanded(
+                          child: Text(item.todate.toDate().hour.toString() + ":" + item.todate.toDate().minute.toString() , style: TextStyle(fontSize:16),)
+                        )
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: Text('Veterinarian', style: TextStyle(fontSize:18),)
+                        ),
+                        Expanded(
+                          child: Text(item.veterinarian, style: TextStyle(fontSize:16),)
+                        )
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: Text('Reazon', style: TextStyle(fontSize:18),)
+                        ),
+                        Expanded(
+                          child: Text(item.reason, style: TextStyle(fontSize:16),)
+                        )
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: Text('Comments', style: TextStyle(fontSize:18),)
+                        ),
+                        Expanded(
+                          child: Text(item.comments, style: TextStyle(fontSize:16),)
+                        )
+                      ],
+                    )
+                  ],
+                ),
               ),
             );
           }).toList(),

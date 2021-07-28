@@ -12,9 +12,11 @@ class Cards {
   final String veterinarian;
   final String mchipId;
   final String creator;
+  final String profileImageUrl;
 
 
   Cards({
+    this.profileImageUrl,
     this.id,
     this.petName,
     this.birthday,

@@ -37,7 +37,7 @@ class _AddNoteDialog extends State<AddNoteDialog>{
 
   @override 
   Widget build(BuildContext context) => AlertDialog(
-    content: Column(
+    content: SingleChildScrollView( child: Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -74,7 +74,7 @@ class _AddNoteDialog extends State<AddNoteDialog>{
         )
       ],
     )
-  );
+  ));
 
   Future saveForm(id) async {
     final isValid = _formKey.currentState.validate();
